@@ -5,77 +5,85 @@
  */
 public class CycleCalculator
 {
-    // speed are in MPH.
+    // speeds are in MPH.
     // constants must be in upper-case
-    private final double BEGINNER_AVERAGE_SPEED =  10;
-    private final double INTERMEDIATE_AVERAGE_SPEED =  15;
-    private final double ADVANCED_AVERAGE_SPEED =  20;
+    private final double BEGINNER_AVERAGE_SPEED = 10;
+    private final double INTERMEDIATE_AVERAGE_SPEED = 15;
+    private final double ADVANCED_AVERAGE_SPEED = 20;
 
-    private final double CYCLE_WITH_SOMEONE =  1.2; // multiply
+    private final double CYCLING_WITH_SOMEONE_MULTIPLIER = 1.2;      // multiply
+    private final double SPEED_INCREASE_PER_YEAR = 0.2;              // increase for each year
 
-    private final double YEARS_OF_CYCLING = 0.2; // increase for each amount of year
+    private final int HOT_TEMPERATURE_CELSIUS = 20;
+    private final int COLD_TEMPERATURE_CELSIUS = 10;
+    private final double SPEED_DECREASE_PER_DEGREE = 0.1;            // decrease
 
-    private final int CELSIUS_FOR_HOT = 20;
-    private final int CELSIUS_FOR_COLD = 10;
+    private final int WIND_STEP_MPH = 15;
+    private final int SPEED_DECREASE_PER_WIND_STEP = 1;              // decrease
 
-    private final double DECREASE_FOREACH_DEGREE = 0.1; // DECREASE
+    private final int SPEED_DECREASE_WHEN_RAINING = 2;               // decrease
 
-    private final int MPH_FOR_WIND = 15;
-    private final int DECREASE_FOREACH_WIND = 1; // DECREASE
+    public double getDuration(int numMiles, String competencyLevel, int numYearsExperience,
+                              boolean cyclingAlone, int temperature, int windSpeed,
+                              boolean isRaining)
+    {
+        double averageSpeed = 0.0;
 
-    private final int rain_condition = 2; //DECREASE
+        // base speed from competency
+        if (competencyLevel.equals("Beginner"))
+        {
+            averageSpeed = BEGINNER_AVERAGE_SPEED;
+        }
+        else if (competencyLevel.equals("Intermediate"))
+        {
+            averageSpeed = INTERMEDIATE_AVERAGE_SPEED;
+        }
+        else if (competencyLevel.equals("Advanced"))
+        {
+            averageSpeed = ADVANCED_AVERAGE_SPEED;
+        }
 
-    // FOR CHECKPOINT
-   public double getDuration(int numMiles, String competency, int numYearsExperience, boolean cyclingAlone,
-                             int temp, int windSpeed, boolean isRaining)
-   {
-       double speed = 0.0;
+        // cycling with someone is faster
+        if (!cyclingAlone)
+        {
+            averageSpeed = averageSpeed * CYCLING_WITH_SOMEONE_MULTIPLIER;
+        }
 
-       if (competency.equals("Beginner")) {
-           speed = BEGINNER_AVERAGE_SPEED;
-       }
-       else if (competency.equals("Intermediate")){
-           speed = INTERMEDIATE_AVERAGE_SPEED;
-       }
-       else
-           speed = ADVANCED_AVERAGE_SPEED;
+        // years of experience
+        averageSpeed = averageSpeed + numYearsExperience * SPEED_INCREASE_PER_YEAR;
 
-       if(!cyclingAlone){
-        speed = speed * CYCLE_WITH_SOMEONE;
-       }
+        // temperature
+        if (temperature > HOT_TEMPERATURE_CELSIUS)
+        {
+            averageSpeed = averageSpeed
+                    - (temperature - HOT_TEMPERATURE_CELSIUS) * SPEED_DECREASE_PER_DEGREE;
+        }
+        else if (temperature < COLD_TEMPERATURE_CELSIUS)
+        {
+            averageSpeed = averageSpeed
+                    - (COLD_TEMPERATURE_CELSIUS - temperature) * SPEED_DECREASE_PER_DEGREE;
+        }
 
-       //years of experience
-       speed = speed + numYearsExperience * YEARS_OF_CYCLING;
+        // wind: integer division counts the whole 15 mph steps
+        averageSpeed = averageSpeed - (windSpeed / WIND_STEP_MPH) * SPEED_DECREASE_PER_WIND_STEP;
 
-       //testing temperature
-       if(temp > CELSIUS_FOR_HOT){
-           speed = speed - (temp - CELSIUS_FOR_HOT) * DECREASE_FOREACH_DEGREE;
-       }
-       else if (temp < CELSIUS_FOR_COLD)
-       {
-           speed = speed - (CELSIUS_FOR_COLD - temp) * DECREASE_FOREACH_DEGREE;
-       }
+        // rain
+        if (isRaining)
+        {
+            averageSpeed = averageSpeed - SPEED_DECREASE_WHEN_RAINING;
+        }
 
-       speed = speed - (windSpeed / MPH_FOR_WIND) * DECREASE_FOREACH_WIND;
+        return numMiles / averageSpeed;
+    }
 
-       //Test for rain
-       if(isRaining){
-           speed = speed - rain_condition;
-       }
-
-
-	  return numMiles / speed;
-   }
-   
-   // advanced work: arrays
-   public double getTotalDuration(double[] durations)
-   {
-       double totalDuration = 0;
-	   for (int i = 0; i < durations.length; i++ ){
-           totalDuration += durations[i];
-       }
-	   return totalDuration;
-   }
-   
-
+    // advanced work: arrays
+    public double getTotalDuration(double[] durations)
+    {
+        double totalDuration = 0;
+        for (int i = 0; i < durations.length; i++)
+        {
+            totalDuration += durations[i];
+        }
+        return totalDuration;
+    }
 }
