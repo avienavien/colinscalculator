@@ -4,7 +4,7 @@ public class Main {
 	
 	private static CycleCalculator cycleCalculator = new CycleCalculator();	
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		// testing competency
 		System.out.println("Beginner competency level is correct? " + Boolean.toString(1.5 ==
 				cycleCalculator.getDuration(15, "Beginner", 0, true, 15, 0, false)));
@@ -48,10 +48,10 @@ public class Main {
 				cycleCalculator.getDuration(10, "Beginner", 0, true, 15, 0, false)));
 
 		// testing total duration
-		// System.out.println("Test adding up total durations is correct? " + Boolean.toString(23.4 ==
-		//		cycleCalculator.getTotalDuration(new double[] { 0.5, 1.2, 3.4, 5.6, 2.32, 1.4, 8.98 })));
-		// System.out.println("Test adding up total durations is correct? " + Boolean.toString(28.13 ==
-		//		cycleCalculator.getTotalDuration(new double[] { 2, 5.65, 4.8, 7.5, 6.98, 1.2 })));
+		 System.out.println("Test adding up total durations is correct? " + Boolean.toString(23.4 ==
+				cycleCalculator.getTotalDuration(new double[] { 0.5, 1.2, 3.4, 5.6, 2.32, 1.4, 8.98 })));
+		 System.out.println("Test adding up total durations is correct? " + Boolean.toString(28.13 ==
+				cycleCalculator.getTotalDuration(new double[] { 2, 5.65, 4.8, 7.5, 6.98, 1.2 })));
 	}
 
 }

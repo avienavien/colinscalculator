@@ -7,9 +7,9 @@ public class CycleCalculator
 {
     // speed are in MPH.
     // constants must be in upper-case
-    private final int BEGINNER_AVERAGE_SPEED =  10;
-    private final int INTERMEDIATE_AVERAGE_SPEED =  15;
-    private final int ADVANCED_AVERAGE_SPEED =  20;
+    private final double BEGINNER_AVERAGE_SPEED =  10;
+    private final double INTERMEDIATE_AVERAGE_SPEED =  15;
+    private final double ADVANCED_AVERAGE_SPEED =  20;
 
     private final double CYCLE_WITH_SOMEONE =  1.2; // multiply
 
@@ -29,15 +29,52 @@ public class CycleCalculator
    public double getDuration(int numMiles, String competency, int numYearsExperience, boolean cyclingAlone,
                              int temp, int windSpeed, boolean isRaining)
    {
-	  // fill in!
-	  return 0.0;
+       double speed = 0.0;
+
+       if (competency.equals("Beginner")) {
+           speed = BEGINNER_AVERAGE_SPEED;
+       }
+       else if (competency.equals("Intermediate")){
+           speed = INTERMEDIATE_AVERAGE_SPEED;
+       }
+       else
+           speed = ADVANCED_AVERAGE_SPEED;
+
+       if(!cyclingAlone){
+        speed = speed * CYCLE_WITH_SOMEONE;
+       }
+
+       //years of experience
+       speed = speed + numYearsExperience * YEARS_OF_CYCLING;
+
+       //testing temperature
+       if(temp > CELSIUS_FOR_HOT){
+           speed = speed - (temp - CELSIUS_FOR_HOT) * DECREASE_FOREACH_DEGREE;
+       }
+       else if (temp < CELSIUS_FOR_COLD)
+       {
+           speed = speed - (CELSIUS_FOR_COLD - temp) * DECREASE_FOREACH_DEGREE;
+       }
+
+       speed = speed - (windSpeed / MPH_FOR_WIND) * DECREASE_FOREACH_WIND;
+
+       //Test for rain
+       if(isRaining){
+           speed = speed - rain_condition;
+       }
+
+
+	  return numMiles / speed;
    }
    
    // advanced work: arrays
    public double getTotalDuration(double[] durations)
    {
-	   // fill in!
-	   return 0.0;
+       double totalDuration = 0;
+	   for (int i = 0; i < durations.length; i++ ){
+           totalDuration += durations[i];
+       }
+	   return totalDuration;
    }
    
 
