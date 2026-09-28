@@ -23,22 +23,22 @@ public class CycleCalculator
 
     private final int SPEED_DECREASE_WHEN_RAINING = 2;               // decrease
 
-    public double getDuration(int numMiles, String competencyLevel, int numYearsExperience,
-                              boolean cyclingAlone, int temperature, int windSpeed,
+    public double getDuration(int numMiles, String competency, int numYearsExperience,
+                              boolean cyclingAlone, int temp, int windSpeed,
                               boolean isRaining)
     {
         double averageSpeed = 0.0;
 
         // base speed from competency
-        if (competencyLevel.equals("Beginner"))
+        if (competency.equals("Beginner"))
         {
             averageSpeed = BEGINNER_AVERAGE_SPEED;
         }
-        else if (competencyLevel.equals("Intermediate"))
+        else if (competency.equals("Intermediate"))
         {
             averageSpeed = INTERMEDIATE_AVERAGE_SPEED;
         }
-        else if (competencyLevel.equals("Advanced"))
+        else if (competency.equals("Advanced"))
         {
             averageSpeed = ADVANCED_AVERAGE_SPEED;
         }
@@ -52,16 +52,16 @@ public class CycleCalculator
         // years of experience
         averageSpeed = averageSpeed + numYearsExperience * SPEED_INCREASE_PER_YEAR;
 
-        // temperature
-        if (temperature > HOT_TEMPERATURE_CELSIUS)
+        // temp
+        if (temp > HOT_TEMPERATURE_CELSIUS)
         {
             averageSpeed = averageSpeed
-                    - (temperature - HOT_TEMPERATURE_CELSIUS) * SPEED_DECREASE_PER_DEGREE;
+                    - (temp - HOT_TEMPERATURE_CELSIUS) * SPEED_DECREASE_PER_DEGREE;
         }
-        else if (temperature < COLD_TEMPERATURE_CELSIUS)
+        else if (temp < COLD_TEMPERATURE_CELSIUS)
         {
             averageSpeed = averageSpeed
-                    - (COLD_TEMPERATURE_CELSIUS - temperature) * SPEED_DECREASE_PER_DEGREE;
+                    - (COLD_TEMPERATURE_CELSIUS - temp) * SPEED_DECREASE_PER_DEGREE;
         }
 
         // wind: integer division counts the whole 15 mph steps
@@ -80,10 +80,10 @@ public class CycleCalculator
     public double getTotalDuration(double[] durations)
     {
         double totalDuration = 0;
-        for (int i = 0; i < durations.length; i++)
-        {
-            totalDuration += durations[i];
+        for (double duration : durations) {
+            totalDuration += duration;
         }
+
         return totalDuration;
     }
 }
