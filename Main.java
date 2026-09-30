@@ -2,7 +2,7 @@
 
 public class Main {
 	
-	private static CycleCalculator cycleCalculator = new CycleCalculator();	
+	private static final CycleCalculator cycleCalculator = new CycleCalculator();
 	
 	public static void main(String[] args) {
 		// testing competency
@@ -52,6 +52,11 @@ public class Main {
 				cycleCalculator.getTotalDuration(new double[] { 0.5, 1.2, 3.4, 5.6, 2.32, 1.4, 8.98 })));
 		 System.out.println("Test adding up total durations is correct? " + Boolean.toString(28.13 ==
 				cycleCalculator.getTotalDuration(new double[] { 2, 5.65, 4.8, 7.5, 6.98, 1.2 })));
+
+		 // testing time format
+		System.out.println("Formatted 1.99 --> " + cycleCalculator.getFormattedDuration(1.99));
+		System.out.println("Formatted 2.01 --> " + cycleCalculator.getFormattedDuration(2.01));
+		System.out.println("Formatted 2.00 --> " + cycleCalculator.getFormattedDuration(2.00));
 	}
 
 }
